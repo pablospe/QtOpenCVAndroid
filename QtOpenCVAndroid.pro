@@ -8,7 +8,7 @@ QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = test
+TARGET = QtOpenCVAndroid
 TEMPLATE = app
 
 
@@ -67,4 +67,4 @@ android {
 }
 
 RESOURCES += \
-    test.qrc
+    QtOpenCVAndroid.qrc
