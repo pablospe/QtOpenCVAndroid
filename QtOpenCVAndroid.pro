@@ -16,7 +16,8 @@ SOURCES += main.cpp \
         mainwindow.cpp \
         opencv_tools.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+            opencv_tools.h
 
 FORMS    += mainwindow.ui
 
