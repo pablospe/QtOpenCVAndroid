@@ -528,6 +528,7 @@ QImage cv2qt_shared(const cv::Mat &mat)
             colorTable.append(qRgb(i,i,i));
         img.setColorTable(colorTable);
     } else if (mat.type() == CV_8UC3) {
+        cv::cvtColor(mat, mat, CV_BGR2RGB);
         img = QImage(mat.data, mat.cols, mat.rows, mat.step, QImage::Format_RGB888);
     } else if (mat.type() == CV_8UC4) {
         img = QImage(mat.data, mat.cols, mat.rows, mat.step, QImage::Format_ARGB32);
