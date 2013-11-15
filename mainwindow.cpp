@@ -25,10 +25,10 @@ void MainWindow::on_pushButton_clicked()
     if(img_qt.isNull())
         qErrnoWarning("Error loading image");
 
-    cv::Mat img_cv;
-    img_cv = qt2cv_shared(img_qt);
-    cv::imshow("img_cv", img_cv);
-    cv::waitKey(3);
+//    cv::Mat img_cv;
+//    img_cv = qt2cv_shared(img_qt);
+//    cv::imshow("img_cv", img_cv);
+//    cv::waitKey(3);
 
 //    img_qt = cv2qt_shared(img_cv);
     ui->label->setPixmap(QPixmap::fromImage(img_qt));
