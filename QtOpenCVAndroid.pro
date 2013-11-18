@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui multimediawidgets
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -14,10 +14,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
         mainwindow.cpp \
-        opencv_tools.cpp
+        opencv_tools.cpp \
+        videocapture.cpp
 
 HEADERS  += mainwindow.h \
-            opencv_tools.h
+            opencv_tools.h \
+            videocapture.h
 
 FORMS    += mainwindow.ui
 
