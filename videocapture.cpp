@@ -3,6 +3,9 @@
 #include <qvideosurfaceformat.h>
 #include <QDebug>
 
+#include "opencv_tools.h"
+#include <opencv2/imgproc/imgproc.hpp>
+
 VideoCapture::VideoCapture(QObject *parent)
     : QAbstractVideoSurface(parent),
       imageFormat(QImage::Format_Invalid)
@@ -50,10 +53,29 @@ bool VideoCapture::present(const QVideoFrame &frame)
                         frame.bytesPerLine(),
                         imageFormat);
 
-            qDebug() << "img.width() " << img.width();
-            mLabel->setPixmap(QPixmap::fromImage(img));
 
-            currentFrame.unmap();
+            // OpenCV example
+            cv::Mat img_cv = qt2cv_shared(img);
+
+            // Gray scale
+            cv::Mat src_gray, detected_edges;
+            cvtColor(img_cv, src_gray, CV_BGR2GRAY);
+
+            // Reduce noise with a kernel 3x3
+            cv::blur(src_gray, detected_edges, cv::Size(3,3));
+
+            // Canny detector
+            int ratio = 3;
+            int kernel_size = 3;
+            int threshold = 30;
+            cv::Canny(detected_edges, detected_edges, threshold, threshold*ratio, kernel_size);
+
+
+            // Display in Qt
+            QImage dst = cv2qt_shared(detected_edges);
+            mLabel->setPixmap(QPixmap::fromImage(dst));
+
+//            currentFrame.unmap(); // do we need this?
         }
 
         return true;
