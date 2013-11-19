@@ -58,7 +58,8 @@ android {
             -lopencv_stitching \
             -lopencv_ts \
             -lopencv_video \
-            -lopencv_videostab
+            -lopencv_videostab \
+            $${OPENCV_PATH}/sdk/native/libs/armeabi-v7a/libopencv_java.so
 
     LIBS += -L$${OPENCV_PATH}/sdk/native/3rdparty/libs/armeabi-v7a \
             -lIlmImf \
