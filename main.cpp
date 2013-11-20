@@ -2,58 +2,59 @@
 #include <QtGui/QGuiApplication>
 #include "qtquick2applicationviewer.h"
 
+#include "mainwindow.h"
+#include "videocapture.h"
+#include <QApplication>
+
+#include <QQuickItem>
+#include <QQmlEngine>
+#include <QQmlComponent>
+#include <QQmlProperty>
+
+#include <QCamera>
+
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    QtQuick2ApplicationViewer viewer;
-    viewer.setMainQmlFile(QStringLiteral("qml/test_camera/main.qml"));
-    viewer.showExpanded();
+
+    QQmlEngine engine;
+    QQmlComponent component(&engine, QUrl::fromLocalFile("qml/test_camera/main.qml"));
+
+    QObject *object = component.create();
+    qDebug() << "object: " << object;
+
+    QObject *cameraObject = object->findChild<QObject*>("cameraObject");
+    qDebug() << "cameraObject: " << cameraObject;
+
+    QVariant cameraVariant = cameraObject->property("mediaObject");
+    QCamera *camera = qvariant_cast<QCamera*>(cameraVariant);
+    qDebug() << "camera: " << camera;
+
+
+    VideoCapture viewFinder;
+    camera->setViewfinder(&viewFinder);
+
+
+
+//    QQuickView view;
+//    view.setSource(QUrl::fromLocalFile("qml/test_camera/main.qml"));
+//    view.show();
+////    QQmlEngine *engine = view.engine();
+
 
     return app.exec();
 }
 
 
-/*  Qt C++
 
-#include "mainwindow.h"
-#include "videocapture.h"
-
-#include <QApplication>
-#include <QCamera>
-#include <QLabel>
-#include <QLineEdit>
-#include <QHBoxLayout>
-
-int main(int argc, char *argv[])
-{
-    QApplication a(argc, argv);
-//    MainWindow w;
-//    w.show();
-
-
-    QCamera camera;
-    VideoCapture viewFinder;
-    QWidget window;
-    QLabel label;
-    QHBoxLayout layout;
-
-    // Create window (by hand, this is an example)
-    label.setMinimumWidth(400);
-    label.setMinimumHeight(400);
-    layout.addWidget(&label);
-    window.setLayout(&layout);
-
-    // Set ViewFinder, Camera and Window
-    viewFinder.setLabel(&label);
-    camera.setViewfinder(&viewFinder);
-    camera.setCaptureMode(QCamera::CaptureStillImage);
-    window.show();
-
-    // Start Camera
-    camera.start();
-
-    return a.exec();
-}
-
-*/
+//// with C++
+//int main(int argc, char *argv[])
+//{
+//    QApplication a(argc, argv);
+//    QCamera *camera = new QCamera;
+//    VideoCapture viewFinder;
+//    camera->setViewfinder(&viewFinder);
+//    camera->start();
+//    return a.exec();
+//}
