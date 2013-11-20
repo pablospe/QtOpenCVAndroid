@@ -2,9 +2,7 @@
 #define VIDEOWIDGETSURFACE_H
 
 #include <QAbstractVideoSurface>
-#include <QImage>
 #include <QVideoFrame>
-#include <QLabel>
 
 class VideoCapture : public QAbstractVideoSurface
 {
@@ -22,13 +20,7 @@ public:
 
     bool isFormatSupported(const QVideoSurfaceFormat &format) const;
 
-    void setLabel(QLabel *l)
-    {
-        mLabel = l;
-    }
-
 private:
-    QLabel *mLabel;
     QImage::Format imageFormat;
     QVideoFrame currentFrame;
 };

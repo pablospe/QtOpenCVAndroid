@@ -4,6 +4,8 @@
 #include <QDebug>
 
 #include "opencv_tools.h"
+#include <opencv2/core/core.hpp>
+#include <opencv2/highgui/highgui.hpp>
 #include <opencv2/imgproc/imgproc.hpp>
 
 VideoCapture::VideoCapture(QObject *parent)
@@ -70,10 +72,11 @@ bool VideoCapture::present(const QVideoFrame &frame)
             int threshold = 30;
             cv::Canny(detected_edges, detected_edges, threshold, threshold*ratio, kernel_size);
 
+            cv::imshow("detected_edges", detected_edges);
+            cv::waitKey(3);
 
-            // Display in Qt
-            QImage dst = cv2qt_shared(detected_edges);
-            mLabel->setPixmap(QPixmap::fromImage(dst));
+            // Get Qt Image
+            // QImage dst = cv2qt_shared(detected_edges);
 
 //            currentFrame.unmap(); // do we need this?
         }
